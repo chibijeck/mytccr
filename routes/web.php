@@ -36,8 +36,8 @@ Route::get('/services', function () {
     return view('pages.services');
 });
 
-Route::get('/scheduleApt', function () {
-    return view('pages.scheduleApt');
+Route::get('/scheduleAppt', function () {
+    return view('pages.scheduleAppt');
 });
 // ------------------------------------
 
