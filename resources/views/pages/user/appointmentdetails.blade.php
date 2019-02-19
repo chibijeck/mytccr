@@ -20,41 +20,43 @@
     </div>
 
     <div class="row">
-          
-        <div class="col-lg-6">
-            <div class="panel panel-default">
-                <!-- <div class="panel-heading">
-                    Registrant's Information
-                </div> -->
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <input type="hidden" name="category" value="birth">
-                            <input type="hidden" name="purpose" value="BIRTH REGISTRATION">
-
-                            <div class="form-group">
-                                <label>REFERENCE ID</label>
-                                <input class="form-control" name="first_name" disabled value="{{ $appointmentdetails->ref_id }}">
-                            </div>
-                            <div class="form-group">
-                                <label>PURPOSE</label>
-                                <input class="form-control" name="first_name" disabled value="{{ $appointmentdetails->purpose }}">
-                            </div>
-                            <div class="form-group">
-                                <label>DATE</label>
-                                <input class="form-control" name="middle_name" disabled value="({{ date('l', strtotime($appointmentdetails->appt_date)) }}) {{ date('F j, Y', strtotime($appointmentdetails->appt_date)) }}">
-                            </div>
-                            <div class="form-group">
-                                <label>TIME</label>
-                                <input class="form-control" name="last_name" disabled value="{{ $appointmentdetails->appt_time}}">
-                            </div>
-                            
-                            
-                        </div>  
+        <!-- <form method="GET" role="form" action="/generate-pdf">  -->
+            <div class="col-lg-6">
+                <div class="panel panel-default">
+                    <!-- <div class="panel-heading">
+                        Registrant's Information
+                    </div> -->
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                
+                                <div class="form-group">
+                                    <label>REFERENCE ID</label>
+                                    <input class="form-control" name="first_name" disabled value="{{ $appointmentdetails->ref_id }}">
+                                </div>
+                                <div class="form-group">
+                                    <label>PURPOSE</label>
+                                    <input class="form-control" name="first_name" disabled value="{{ $appointmentdetails->purpose }}">
+                                </div>
+                                <div class="form-group">
+                                    <label>DATE</label>
+                                    <input class="form-control" name="middle_name" disabled value="({{ date('l', strtotime($appointmentdetails->appt_date)) }}) {{ date('F j, Y', strtotime($appointmentdetails->appt_date)) }}">
+                                </div>
+                                <div class="form-group">
+                                    <label>TIME</label>
+                                    <input class="form-control" name="last_name" disabled value="{{ $appointmentdetails->appt_time}}">
+                                </div>
+                                
+                                
+                            </div>  
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+            <div class="col-lg-6" >
+                <button type="submit" class="btn btn-primary" onclick="window.open('/generate-pdf','_blank')">PRINT PREVIEW</button>
+            </div>
+        <!-- </form> -->
     </div>
 
 
@@ -123,8 +125,8 @@
 -->
             <!-- /.col-lg-4 -->
        <!-- </div> -->
-
-        @if( $_COOKIE['service'] == 'BIRTH CERTIFICATE' )
+       <div class="row">
+        @if( $appointmentdetails->purpose == 'BIRTH CERTIFICATE' || $appointmentdetails->purpose == 'CTC OF BIRTH CERTIFICATE')
                 <div class="col-lg-12">
                     <div class="panel panel-info">
                         <div class="panel-heading">
@@ -178,8 +180,9 @@
                                         </ul>
                                     </li>
 
+                                    @if( $age >= 0 && $age <= 6)
                                     <li>
-                                        <h5>If applicant is 0-6 years of age</h5>
+                                        <!-- <h5>If applicant is 0-6 years of age</h5> -->
                                         <ul>
                                             <li style="list-style-type:none"><i><b>*All events of birth shall be registered in the Civil Registry Office within thirty (30) days. Otherwise, it will be considered as delayed.</b></i></li>
                                             <li>Any two of the following supporting documents to prove the NAME, DATE and PLACE OF BIRTH, and PARENTS OF THE CHILD / REGISTRANT:</li>
@@ -211,9 +214,11 @@
                                             </ul>
                                         </ul>
                                     </li>
+                                    @endif
 
+                                    @if( $age >= 13 && $age <= 17)
                                     <li>
-                                        <h5>If applicant is 13-17 years of age</h5>
+                                        <!-- <h5>If applicant is 13-17 years of age</h5> -->
                                             <ul>
                                                 <li style="list-style-type:none"><i><b>*COVERAGE: Born between January 1, 2000 to March 18, 2004 - Acknowledged by the father using mother’s surname w/o middle name</b></i></li>
                                                 <li>Any two of the following supporting documents to prove the NAME, DATE and PLACE OF BIRTH, and PARENTS OF THE CHILD / REGISTRANT:</li>
@@ -253,9 +258,11 @@
                                                 </ul>
                                             </ul>
                                     </li>
+                                    @endif
 
+                                    @if( $age >= 18 && $age <= 28)
                                     <li>
-                                        <h5>If applicant is 18-28 years of age</h5>
+                                        <!-- <h5>If applicant is 18-28 years of age</h5> -->
                                         <ul>
                                                 <li style="list-style-type:none"><i><b>*COVERAGE: Born between August 3, 1988 to December 31, 1988 - Acknowledged by the father using mother’s surname w/o middle name</b></i></li>
                                                 <li>PSA COPY / CTC of Certificate of Marriage (For married applicant)</li>
@@ -296,9 +303,11 @@
                                                 </ul>
                                             </ul>
                                     </li>
+                                    @endif
 
+                                    @if( $age >= 28 )
                                     <li>
-                                        <h5>If applicant is 28 years and above</h5>
+                                        <!-- <h5>If applicant is 28 years and above</h5> -->
                                             <ul>
                                                 <li style="list-style-type:none"><i><b>*COVERAGE: Born on or before August 2, 1998 - Acknowledged by the parents using father’s surname</b></i></li>
                                                 <li>PSA COPY / CTC of Certificate of Marriage (For married applicant)</li>
@@ -339,7 +348,9 @@
                                                 </ul>
                                             </ul>
                                     </li>
+                                    @endif
 
+                                    
                                     <li>
                                         <h5>Affidavit of Acknowledgement / Admission of Paternity</h5>
 
@@ -386,7 +397,7 @@
                 <!-- /.col-lg-4 -->
         @endif
 
-        @if( $_COOKIE['service'] == 'MARRIAGE LICENSE' )
+        @if( $appointmentdetails->purpose == 'MARRIAGE LICENSE' )
                 <div class="col-lg-12">
                     <div class="panel panel-info">
                         <div class="panel-heading">
@@ -497,7 +508,7 @@
                 <!-- /.col-lg-4 -->
         @endif
 
-        @if( $_COOKIE['service'] == 'MARRIAGE CERTIFICATE' )
+        @if( $appointmentdetails->purpose == 'MARRIAGE CERTIFICATE' || $appointmentdetails->purpose == 'CTC OF MARRIAGE CERTIFICATE')
                 <div class="col-lg-12">
                     <div class="panel panel-info">
                         <div class="panel-heading">
@@ -527,7 +538,7 @@
                 <!-- /.col-lg-4 -->
         @endif
 
-        @if( $_COOKIE['service'] == 'DEATH CERTIFICATE' )
+        @if( $appointmentdetails->purpose == 'DEATH CERTIFICATE' || $appointmentdetails->purpose == 'CTC OF DEATH CERTIFICATE')
                 <div class="col-lg-12">
                     <div class="panel panel-info">
                         <div class="panel-heading">
@@ -570,6 +581,450 @@
                 </div>
                 <!-- /.col-lg-4 -->
         @endif
+
+        @if( $appointmentdetails->purpose == 'CORRECTION OF CLERICAL ERROR IN MARRIAGE CERTIFICATE')
+                <div class="col-lg-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h4>CORRECTION OF CLERICAL ERROR IN MARRIAGE CERTIFICATE</h4>
+                        </div>
+                        <div class="panel-body" style="line-height: 2; text-align: justify;">
+                            <p>
+                                <ul>
+                                    <li>
+                                        <h5>Marriage Certificate w/ error (1 PSA & Certified True Copy)</h5>
+                                    </li>
+                                    
+                                    <li>
+                                        <h5>Birth Certificate – Husband / Wife</h5>
+                                    </li>
+                                    
+                                    <li>
+                                        <h5>Baptismal Certificate – Husband / Wife</h5>
+                                    </li>
+                                    
+                                    <li>
+                                        <h5>School Records – Husband / Wife</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>Voter’s Certification – Husband / Wife</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>Death Certificate – Mother / Father / Siblings</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>Bank Passbook</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>Passport</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>GSIS / SSS-E1 / E4 / PhilhealthMDR – Husband / Wife</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>Marriage Contract - Parents</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>Latest Community Tax Cert. / Cedula</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>Valid ID – Petitioner (Passport, Driver’s License, SSS, Unified Multi-Purpose ID, BIR ID, etc,.)</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>Special Power of Attorney</h5>
+                                    </li>
+                                </ul>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col-lg-4 -->
+        @endif
+
+
+        @if( $appointmentdetails->purpose == 'CHANGE OF FIRST NAME')
+                <div class="col-lg-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h4>CHANGE OF FIRST NAME</h4>
+                        </div>
+                        <div class="panel-body" style="line-height: 2; text-align: justify;">
+                            <p>
+                                <ul>
+                                    <li>
+                                        <h5>Birth Certificate w/ error (1 PSA Copy & 3 Certified True Copies)</h5>
+                                    </li>
+                                    
+                                    <li>
+                                        <h5>Baptismal Certificate</h5>
+                                    </li>
+                                    
+                                    <li>
+                                        <h5>Medical Records</h5>
+                                    </li>
+                                    
+                                    <li>
+                                        <h5>School Records</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>Voter’s Registration Record / Certification</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>Police Clearance (purpose: change of name)</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>NBI Clearance with A.K.A (purpose: change of name)</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>Certificate of Employment</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>if not employed: Affidavit of Non-Employment</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>Marriage Contract</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>GSIS / SSS-E1 / E4 / Philhealth MDR</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>Bank Passbook</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>Passbook</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>Community Tax Cert. / Cedula</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>Valid ID – Petitioner</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>Special Power of Attorney with Valid ID</h5>
+                                    </li>
+                                </ul>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col-lg-4 -->
+        @endif
+
+        @if( $appointmentdetails->purpose == 'CORRECTION OF CLERICAL ERROR')
+                <div class="col-lg-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h4>CORRECTION OF CLERICAL ERROR</h4>
+                        </div>
+                        <div class="panel-body" style="line-height: 2; text-align: justify;">
+                            <p>
+                                <ul>
+                                    <li>
+                                        <h5>Birth Certificate w/ error (1 PSA Copy & 3 Certified True Copies)</h5>
+                                    </li>
+                                    
+                                    <li>
+                                        <h5>Certificate of Baptismal</h5>
+                                    </li>
+                                    
+                                    <li>
+                                        <h5>Medical Records</h5>
+                                    </li>
+                                    
+                                    <li>
+                                        <h5>School Records</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>Voter’s Registration / Certification</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>Birth Certificate – Mother / Father</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>Marriage Contract (Document owner / Parents)</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>GSIS / SSS-E1 / E4 / Philhealth</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>Bank Passbook</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>Death Certificate – Mother / Father</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>Passport</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>Latest Community Tax Cert. / Cedula</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>Valid ID – Petitioner(Passport, Driver’s License, SSS, Unified Multi-Purpose ID, BIR ID)</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>Special Power of Attorney</h5>
+                                    </li>
+                                </ul>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col-lg-4 -->
+        @endif
+
+        @if( $appointmentdetails->purpose == 'CORRECTION OF GENDER')
+                <div class="col-lg-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h4>CORRECTION OF GENDER</h4>
+                        </div>
+                        <div class="panel-body" style="line-height: 2; text-align: justify;">
+                            <p>
+                                <ul>
+                                    <li>
+                                        <h5>Child's Birth Certificate w/ error (1 PSA Copy & 3 Certified True Copies)</h5>
+                                    </li>
+                                    
+                                    <li>
+                                        <h5>Certificate of Baptismal</h5>
+                                    </li>
+                                    
+                                    <li>
+                                        <h5>Medical Records (Earliest)</h5>
+                                    </li>
+                                    
+                                    <li>
+                                        <h5>Earliest School Records (Elementary: Form 137-E)</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>Voter’s Registration / Certification</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>Police Clearance (purpose: correction of entry)</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>NBI Clearance with A.K.A (purpose: other requirement)</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>Certificate of Employment</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>if not employed: Affidavit of Non-Employment</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>MEDICAL CERTIFICATE – City Health Office</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>GSIS Membership Data Record/ SSS-E1 Form</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>Marriage Contract</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>Valid ID – Petitioner (Passport, Driver’s License, SSS, Unified Multi-Purpose ID, BIR ID)</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>Certificate of Appearance (If minor, mentally challenged) For LCRO issuance</h5>
+                                    </li>
+
+                                </ul>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col-lg-4 -->
+        @endif
+
+
+        @if( $appointmentdetails->purpose == 'CORRECTION OF ENTRY IN THE DAY AND/OR MONTH IN THE DATE OF BIRTH')
+                <div class="col-lg-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h4>CORRECTION OF ENTRY IN THE DAY AND/OR MONTH IN THE DATE OF BIRTH</h4>
+                        </div>
+                        <div class="panel-body" style="line-height: 2; text-align: justify;">
+                            <p>
+                                <ul>
+                                    <li>
+                                        <h5>Birth Certificate w/ error (1 PSA Copy & 3 Certified True Copies)</h5>
+                                    </li>
+                                    
+                                    <li>
+                                        <h5>Baptismal Certificate</h5>
+                                    </li>
+                                    
+                                    <li>
+                                        <h5>Medical Records</h5>
+                                    </li>
+                                    
+                                    <li>
+                                        <h5>School Records</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>Voter’s Registration Record / Certification</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>Police Clearance (purpose: change of name)</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>NBI Clearance with A.K.A (purpose: change of name)</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>Certificate of Employment</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>if not employed: Affidavit of Non-Employment</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>Marriage Contract</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>GSIS / SSS-E1 / E4 / Philhealth MDR</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>Bank Passbook</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>Passbook</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>Community Tax Cert. / Cedula</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>Valid ID – Petitioner</h5>
+                                    </li>
+
+                                    <li>
+                                        <h5>Special Power of Attorney with Valid ID</h5>
+                                    </li>
+                                </ul>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col-lg-4 -->
+        @endif
+
+        @if( $appointmentdetails->purpose == 'AUSF')
+                <div class="col-lg-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h4>AUSF</h4>
+                        </div>
+                        <div class="panel-body" style="line-height: 2; text-align: justify;">
+                            <p>
+                                <ul>
+                                    <li>
+                                        <h5>BIRTH CERTIFICATE OF CHILD (PSA-NSO COPY and CERTIFIED TRUE COPY)</h5>
+                                    </li>
+                                    
+                                    <li>
+                                        <h5>Duly Accomplished and Notarized (TYPEWRITTEN) AFFIDAVIT TO USE THE SURNAME OF THE FATHER</h5>
+                                    </li>
+                                    
+                                    <li>
+                                        <h5>Duly Accomplished and Notarized (TYPEWRITTEN) AFFIDAVIT OF ACKNOWLEDGEMENT if the father’s name does not appear at the birth certificate of the child</h5>
+                                    </li>
+                                    
+                                    <li>
+                                        <h5>Duly Accomplished and Notarized (TYPEWRITTEN) CONSENT OF THE CHILD TO USE THE SURNAME OF THE FATHER (if the child is 18 yrs. old and above).</h5>
+                                    </li>
+
+                                    
+                                </ul>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col-lg-4 -->
+        @endif
+
+        @if( $appointmentdetails->purpose == 'LEGITIMATION')
+                <div class="col-lg-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h4>LEGITIMATION</h4>
+                        </div>
+                        <div class="panel-body" style="line-height: 2; text-align: justify;">
+                            <p>
+                                <ul>
+                                    <li>
+                                        <h5>BIRTH CERTIFICATE OF CHILD (PSA-NSO COPY and CERTIFIED TRUE COPY)</h5>
+                                    </li>
+                                    
+                                    <li>
+                                        <h5>Duly Accomplished and Notarized (TYPEWRITTEN) AFFIDAVIT TO USE THE SURNAME OF THE FATHER</h5>
+                                    </li>
+                                    
+                                    <li>
+                                        <h5>Duly Accomplished and Notarized (TYPEWRITTEN) AFFIDAVIT OF ACKNOWLEDGEMENT if the father’s name does not appear at the birth certificate of the child</h5>
+                                    </li>
+                                    
+                                    <li>
+                                        <h5>Duly Accomplished and Notarized (TYPEWRITTEN) CONSENT OF THE CHILD TO USE THE SURNAME OF THE FATHER (if the child is 18 yrs. old and above).</h5>
+                                    </li>
+
+                                    
+                                </ul>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col-lg-4 -->
+        @endif
+    <div class="row">
 <!--
         <div class="row">
             <div class="col-lg-12">

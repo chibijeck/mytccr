@@ -49,9 +49,7 @@ Route::get('/login', function () {
 
 Route::post('/login', 'AdminController@adminLogin');
 
-Route::get('/admin', function () {
-    return view('pages.admin.dashboard');
-});
+Route::get('/admin', 'AdminController@countStatus');
 
 Route::get('/appointments', 'AdminController@index');
 
@@ -79,3 +77,6 @@ Route::get('/requirements', 'AppointmentController@getRequirements');
 Route::get('/appointment', 'AppointmentController@getAppointmentDetails');
 
 // ------------------------------------
+
+
+Route::get('generate-pdf', 'PdfGenerateController@pdfview')->name('generate-pdf');

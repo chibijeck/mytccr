@@ -22,7 +22,7 @@
     <!-- /.dropdown -->
     <li class="dropdown">
         <!--<a class="dropdown-toggle" data-toggle="dropdown" href="/">-->
-        <a href="/scheduleApt">
+        <a href="/">
             <i class="fa fa-tasks fa-fw"></i> Schedule An Appointment <!--<i class="fa fa-caret-down"></i>-->
         </a>
     </li>

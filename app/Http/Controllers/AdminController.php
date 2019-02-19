@@ -8,9 +8,20 @@ class AdminController extends Controller
 {
 	public function index()
     {
-    	$appointment = \App\Appointment::orderBy('id', 'DESC')->get();
+        if(!empty(request('status'))){
+            $appointment = \App\Appointment::where('status', strtoupper(request('status')))->orderBy('id', 'DESC')->get();
+        } else {
+            $appointment = \App\Appointment::orderBy('id', 'DESC')->get();
+        }
+        
 
     	return view('pages.admin.appointments', ['appointments' => $appointment]);
+    }
+
+    public function countStatus()
+    {
+        $appointments = \App\Appointment::select('status')->selectRaw('count(*) as total')->groupBy('status')->get();
+        return view('pages.admin.dashboard', ['status' => $appointments]);
     }
 
     public function updateAppointmentStatus()

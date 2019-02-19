@@ -36,6 +36,7 @@ class AppointmentController extends Controller
     	$appointment->save();
 
     	switch (request('category')) {
+            //Main forms
     		case 'birth_certificate':
     			$this->birthCertificate( $appointment->ref_id );
     			break;
@@ -50,6 +51,50 @@ class AppointmentController extends Controller
 
             case 'death_certificate':
                 $this->deathCertificate( $appointment->ref_id );
+                break;
+
+            //CTC forms
+            case 'ctc_of_birth_certificate':
+                $this->birthCertificate( $appointment->ref_id );
+                break;
+
+            case 'ctc_of_marriage_certificate':
+                $this->marriageCertificate( $appointment->ref_id );
+                break;
+
+            case 'ctc_of_death_certificate':
+                $this->deathCertificate( $appointment->ref_id );
+                break;
+
+            //RA9048
+            case 'correction_of_clerical_error_in_marriage_certificate':
+                // $this->birthCertificate( $appointment->ref_id );
+                break;
+
+            case 'change_of_first_name':
+                // $this->marriageCertificate( $appointment->ref_id );
+                break;
+
+            case 'correction_of_clerical_error':
+                // $this->deathCertificate( $appointment->ref_id );
+                break;
+
+            //RA10172
+            case 'correction_of_gender':
+                // $this->birthCertificate( $appointment->ref_id );
+                break;
+
+            case 'correction_of_entry_in_the_day_andor_month_in_the_date_of_birth':
+                // $this->marriageCertificate( $appointment->ref_id );
+                break;
+
+            //RA9858
+            case 'ausf':
+                // $this->birthCertificate( $appointment->ref_id );
+                break;
+
+            case 'legitimation':
+                // $this->marriageCertificate( $appointment->ref_id );
                 break;
 
     		default:
@@ -172,6 +217,7 @@ class AppointmentController extends Controller
         $service = $_COOKIE['service'];
 
         switch ($service) {
+            //Main forms
             case 'BIRTH CERTIFICATE':
                 return view('pages.user.form.birth_certificate');
             break;
@@ -188,6 +234,52 @@ class AppointmentController extends Controller
                 return view('pages.user.form.death_certificate');
             break;
 
+            //CTC forms
+            case 'CTC OF BIRTH CERTIFICATE':
+                return view('pages.user.form.CTC.ctc_of_birth_certificate');
+            break;
+            
+            case 'CTC OF MARRIAGE CERTIFICATE':
+                return view('pages.user.form.CTC.ctc_of_marriage_certificate');
+            break;
+
+            case 'CTC OF DEATH CERTIFICATE':
+                return view('pages.user.form.CTC.ctc_of_death_certificate');
+            break;
+
+            //RA 9048
+            case 'CORRECTION OF CLERICAL ERROR IN MARRIAGE CERTIFICATE':
+                return view('pages.user.form.RA9048.correction_of_clerical_error_in_marriage_certificate');
+            break;
+            
+            case 'CHANGE OF FIRST NAME':
+                return view('pages.user.form.RA9048.change_of_first_name');
+            break;
+
+            case 'CORRECTION OF CLERICAL ERROR':
+                return view('pages.user.form.RA9048.correction_of_clerical_error');
+            break;
+
+
+            //RA 10172
+            case 'CORRECTION OF GENDER':
+                return view('pages.user.form.RA10172.correction_of_gender');
+            break;
+
+            case 'CORRECTION OF ENTRY IN THE DAY AND/OR MONTH IN THE DATE OF BIRTH':
+                return view('pages.user.form.RA10172.correction_of_entry_in_the_day_andor_month_in_the_date_of_birth');
+            break;
+
+
+            //RA9858
+            case 'AUSF':
+                return view('pages.user.form.RA9858.ausf');
+            break;
+
+            case 'LEGITIMATION':
+                return view('pages.user.form.RA9858.legitimation');
+            break;
+
             default:
                 # code...
                 break;
@@ -199,7 +291,8 @@ class AppointmentController extends Controller
         if ( Input::get('service') ) {
             $service = explode("_", Input::get('service'));
             
-            setcookie('service', strtoupper($service[0]) . " ". strtoupper($service[1]));
+            setcookie('service', strtoupper(implode(" ", $service)));
+            
             return view('pages.user.terms', ["service" => strtoupper($service[0]) . " ". strtoupper($service[1])] );
         }else{
             return view('pages.user.terms');
@@ -219,8 +312,18 @@ class AppointmentController extends Controller
     {
         $ref_id = $_COOKIE['ref_id'];
         $details = \App\Appointment::where('ref_id', $ref_id)->first();
-        // return $details;
-        return view('pages.user.appointmentdetails', ['appointmentdetails' => $details]);
+        $bday = \App\BirthCertificate::where('ref_id', $ref_id)->first();
+        $age = '';
+        
+        if(!empty($bday)){
+            $birthDate = $bday['date_birth'];
+            $birthDate = explode("-", $birthDate);
+            $age = (date("md", date("U", mktime(0, 0, 0, $birthDate[1], $birthDate[2], $birthDate[0]))) > date("md") 
+                ? ((date("Y") - $birthDate[0]) - 1) : (date("Y") - $birthDate[0]));
+        }
+        
+        // dd($details);
+        return view('pages.user.appointmentdetails', ['appointmentdetails' => $details, 'age' => $age]);
     }
 
     

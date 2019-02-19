@@ -26,7 +26,7 @@
                                     <i class="fa fa-comments fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">0</div>
+                                    <div class="huge">{{$status[0]->total}}</div>
                                     <div>COMPLETED</div>
                                 </div>
                             </div>
@@ -70,7 +70,7 @@
                                     <i class="fa fa-shopping-cart fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">1</div>
+                                    <div class="huge">{{$status[1]->total}}</div>
                                     <div>PENDING</div>
                                 </div>
                             </div>
